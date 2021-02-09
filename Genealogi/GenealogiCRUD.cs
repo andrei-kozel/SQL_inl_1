@@ -55,6 +55,11 @@ namespace Genealogi
                 );
         }
 
+        /// <summary>
+        /// Get a person from Database
+        /// </summary>
+        /// <param name="name">String Name</param>
+        /// <returns>Person Object</returns>
         public Person Read(string name)
         {
             var db = new SQLDB();
@@ -68,6 +73,11 @@ namespace Genealogi
             return GetPersonObject(dt.Rows[0]);
         }
 
+        /// <summary>
+        /// Generate Person object based on DataRow returned from Database 
+        /// </summary>
+        /// <param name="dataRow">DataRow from Database</param>
+        /// <returns>Person object</returns>
         private Person GetPersonObject(DataRow dataRow)
         {
             return new Person
@@ -86,6 +96,10 @@ namespace Genealogi
             };
         }
 
+        /// <summary>
+        /// Delete the person from Database based on Person.Id
+        /// </summary>
+        /// <param name="person">Person Object</param>
         public void Delete(Person person)
         {
             var db = new SQLDB();
