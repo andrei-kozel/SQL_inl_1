@@ -54,11 +54,16 @@ namespace Genealogi
                 ("@Father", person.Father.ToString())
                 );
         }
-        
-        public Person Read(string name) {
+
+        public Person Read(string name)
+        {
             var db = new SQLDB();
             db.OpenDatabase(DatabaseName);
             var dt = db.GetDataTable(@"SELECT TOP 1 * FROM People WHERE FIrstName LIKE @name", ("@name", name));
+            if(dt.Rows.Count <= 0)
+            {
+                return null;
+            }
 
             return GetPersonObject(dt.Rows[0]);
         }
@@ -87,12 +92,45 @@ namespace Genealogi
             db.OpenDatabase(DatabaseName);
             db.ExecuteSQL(@"DELETE FROM People WHERE ID = @Id", ("@Id", person.Id.ToString()));
         }
+
+        /// <summary>
+        /// Update the person in Database based on Person.Id
+        /// </summary>
+        /// <param name="person">Person Object</param>
+        public void Update(Person person)
+        {
+            var db = new SQLDB();
+            db.OpenDatabase(DatabaseName);
+            db.ExecuteSQL(@"UPDATE People SET  
+                                FirstName= @FirstName, 
+                                LastName = @LastName, 
+                                BirthDate = @BirthDate, 
+                                BirthCountry = @BirthCountry, 
+                                BirthCity = @BirthCity,  
+                                DeathDate = @DeathDate, 
+                                DeathCountry = @DeathCountry, 
+                                DeathCity = @DeathCity, 
+                                Mother = @Mother, 
+                                Father = @Father
+                            WHERE Id = @Id",
+                                ("@FirstName", person.Name),
+                                ("@LastName", person.LastName),
+                                ("@BirthDate", person.BirthDate),
+                                ("@BirthCountry", person.BirthCountry),
+                                ("@BirthCity", person.BirthCity),
+                                ("@DeathDate", person.DeathDate),
+                                ("@DeathCountry", person.DeathCountry),
+                                ("@DeathCity", person.DeathCity),
+                                ("@Mother", person.Mother.ToString()),
+                                ("@Father", person.Father.ToString()),
+                                ("@Id", person.Id.ToString()));
+        }
+
         //public bool DoesPersonExist(string name) {/* Massor med kod */}
         //public bool DoesPersonExist(int Id) {/* Massor med kod */}
         //public void GetFather(Person person) {/* Massor med kod */}
         //public void GetMother(Person person) {/* Massor med kod */}
         //public List<Person> List(string paramValue, string filter = "firstName LIKE @i nput") {/* Massor med kod */}
-        //public void Update(Person person) {/* Massor med kod */}
 
     }
 }

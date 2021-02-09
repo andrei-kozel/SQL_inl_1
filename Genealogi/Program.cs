@@ -25,11 +25,11 @@ namespace Genealogi
                             ");
             //Person testPerson = new Person
             //{
-            //    Name = "Andrei",
-            //    LastName = "Kozel",
+            //    Name = "Luke",
+            //    LastName = "Skywalker",
             //    BirthDate = "1994",
-            //    BirthCountry = "Belarus",
-            //    BirthCity = "Molodechno",
+            //    BirthCountry = "Tatooine",
+            //    BirthCity = "Tatooine",
             //    DeathDate = "",
             //    DeathCountry = "",
             //    DeathCity = "",
@@ -38,12 +38,15 @@ namespace Genealogi
             //};
             GenealogiCRUD crud = new GenealogiCRUD { DatabaseName = DatabaseName };
             //crud.Create(testPerson); 
-            Person res = crud.Read("Andrei");
-            Console.WriteLine(res.Id + " " + res.Name + " " + res.LastName );
-            Person res2 = crud.Read("Test2");
-            Console.WriteLine(res2.Id + " " + res2.Name + " " + res2.LastName);
-            crud.Delete(res2);
-
+            
+            Person res = crud.Read("Luke");
+            if(res != null)
+            {
+                Console.WriteLine(res.Id + " " + res.Name + " " + res.LastName);
+            }
+            
+            //res.Name = "Andruha";
+            //crud.Update(res);
         }
     }
 }
