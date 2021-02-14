@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Genealogi
 {
@@ -6,6 +7,7 @@ namespace Genealogi
     {
         static void Main(string[] args)
         {
+            Console.WindowWidth = 140;
             string DatabaseName = "Genealogi";
             SQLDB db = new SQLDB();
             db.CreateDatabase(DatabaseName);
@@ -38,16 +40,34 @@ namespace Genealogi
             //};
             GenealogiCRUD crud = new GenealogiCRUD { DatabaseName = DatabaseName };
             //crud.Create(testPerson); 
-            
+
             Person res = crud.Read("Luke");
-            if(res != null)
+            if (res != null)
             {
                 Console.WriteLine(res.Id + " " + res.Name + " " + res.LastName);
             }
-            
-            //res.Name = "Andruha";
-            //crud.Update(res);
+
+            var lst = crud.List();
+            PrintTable(lst);
+        }
+
+        /// <summary>
+        /// Write table into console
+        /// </summary>
+        /// <param name="lst">List</param>
+        private static void PrintTable(List<Person> lst)
+        {
+            Console.WriteLine(String.Format("|{10, 3}|{0,10}|{1,10}|{2,12}|{3,15}|{4,12}|{5,12}|{6,15}|{7,12}|{8,12}|{9,12}|",
+                                             "Name", "Last Name", "Birth Date", "Birth Country", "Birth City", "Death Date",
+                                             "Death Country", "Death City", "Mother", "Father", "ID"));
+            foreach (var person in lst)
+            {
+                Console.WriteLine(String.Format("|{10, 3}|{0,10}|{1,10}|{2,12}|{3,15}|{4,12}|{5,12}|{6,15}|{7,12}|{8,12}|{9,12}|",
+                                                person.Name, person.LastName, person.BirthDate, person.BirthCountry, person.BirthCity, person.DeathDate,
+                                                person.DeathCountry, person.DeathCity, person.Mother, person.Father, person.Id));
+            }
         }
     }
 }
+
 
