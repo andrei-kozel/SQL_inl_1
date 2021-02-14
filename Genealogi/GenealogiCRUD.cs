@@ -185,9 +185,18 @@ namespace Genealogi
         }
 
 
-        //public void GetFather(Person person) {/* Massor med kod */}
-        //public void GetMother(Person person) {/* Massor med kod */}
-        //public List<Person> List(string paramValue, string filter = "firstName LIKE @i nput") {/* Massor med kod */}
+        public void GetFather(Person person) 
+        {
+            var father = Read(person.Id);
+            Console.WriteLine($"Father: {father.Name}");
+        }
+        
+        public void GetMother(Person person) {
+            var mother = Read(person.Id);
+            Console.WriteLine($"Father: {mother.Name}");
+        }
+
+        //public List<Person> List(string paramValue, string filter = "firstName LIKE @input") {/* Massor med kod */}
 
     }
 }
