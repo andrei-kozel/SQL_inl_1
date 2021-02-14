@@ -100,7 +100,7 @@ namespace Genealogi
         {
             return new Person
             {
-                Id = (int)dataRow["id"],
+                Id = Convert.ToInt32(dataRow["id"]),
                 Name = dataRow["FirstName"].ToString(),
                 LastName = dataRow["LastName"].ToString(),
                 BirthDate = dataRow["BirthDate"].ToString(),
@@ -109,10 +109,11 @@ namespace Genealogi
                 DeathDate = dataRow["DeathDate"].ToString(),
                 DeathCountry = dataRow["DeathCountry"].ToString(),
                 DeathCity = dataRow["DeathCity"].ToString(),
-                Mother = (int)dataRow["Mother"],
-                Father = (int)dataRow["Father"]
+                Mother = Convert.IsDBNull(dataRow["Mother"]) ? 0 : (int)dataRow["Mother"],
+                Father = Convert.IsDBNull(dataRow["Father"]) ? 0 : (int)dataRow["Father"]
             };
         }
+
 
         /// <summary>
         /// Delete the person from Database based on Person.Id
@@ -196,7 +197,31 @@ namespace Genealogi
             Console.WriteLine($"Father: {mother.Name}");
         }
 
-        //public List<Person> List(string paramValue, string filter = "firstName LIKE @input") {/* Massor med kod */}
+        /// <summary>
+        /// Generate and returns list with Person objects
+        /// </summary>
+        /// <param name="filter">Used to filter data</param>
+        /// <param name="orderBy">Used to sort data</param>
+        /// <returns>List with Person objects</returns>
+        public List<Person> List(string filter = "", string orderBy = "") 
+        {
+            var lst = new List<Person>();
+            var sql = $"SELECT * FROM People";
+            var db = new SQLDB();
+            db.OpenDatabase(DatabaseName);
+
+            if (filter != "") sql += " WHERE " + filter;
+            if (orderBy != "") sql += " ORDER BY " + orderBy;
+
+            var data = db.GetDataTable(sql);
+
+            foreach(DataRow row in data.Rows)
+            {
+                lst.Add(GetPersonObject(row));
+            }
+
+            return lst;
+        }
 
     }
 }
