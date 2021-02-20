@@ -56,6 +56,16 @@ namespace Genealogi
         }
 
         /// <summary>
+        /// Returns a list of children
+        /// </summary>
+        /// <param name="person">Person object</param>
+        /// <returns>List of chlildren</returns>
+        internal List<Person> GetChildren(Person person)
+        {
+            return List(filter: $"Mother LIKE {person.Id} OR Father Like {person.Id}" );
+        }
+
+        /// <summary>
         /// Get a person from Database by name
         /// </summary>
         /// <param name="name">String Name</param>
@@ -191,8 +201,8 @@ namespace Genealogi
         /// <param name="person">Person object</param>
         public void GetFather(Person person) 
         {
-            var father = Read(person.Id);
-            Console.WriteLine($"Father: {father.Name}");
+            var father = Read(person.Father);
+            Console.WriteLine($"Father: {father.Name} {father.LastName}");
         }
         
         /// <summary>
@@ -200,9 +210,11 @@ namespace Genealogi
         /// </summary>
         /// <param name="person">Person object</param>
         public void GetMother(Person person) {
-            var mother = Read(person.Id);
-            Console.WriteLine($"Father: {mother.Name}");
+            var mother = Read(person.Mother); 
+            Console.WriteLine($"Mother: {mother.Name} {mother.LastName}");
         }
+
+
 
         /// <summary>
         /// Generate and returns list with Person objects

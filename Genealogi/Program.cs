@@ -29,8 +29,40 @@ namespace Genealogi
             ChangeNameToOrgana();
             CreateMaraJade();
             CreteBenSkywalker();
+            ShowParents();
+            ShowChildren();
             SortListByName();
             SortListByBirthCity();
+        }
+
+        /// <summary>
+        /// Show children
+        /// </summary>
+        private static void ShowChildren()
+        {
+            Console.WriteLine("Show Mara's children");
+            Person mara = crud.Read("Mara");
+            var lst = crud.GetChildren(mara);
+            PrintTable(lst);
+            Continue();
+
+            Console.WriteLine("Show Anakin's children");
+            Person anakin = crud.Read("Anakin");
+            var lst2 = crud.GetChildren(anakin);
+            PrintTable(lst2);
+            Continue();
+        }
+
+        /// <summary>
+        /// Show Ben's parents
+        /// </summary>
+        private static void ShowParents()
+        {
+            Console.WriteLine("Show Ben's parents");
+            Person ben = crud.Read("Ben");
+            crud.GetFather(ben);
+            crud.GetMother(ben);
+            Continue();
         }
 
         /// <summary>
