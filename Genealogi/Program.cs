@@ -30,6 +30,7 @@ namespace Genealogi
             CreateMaraJade();
             CreteBenSkywalker();
             SortListByName();
+            SortListByBirthCity();
         }
 
         /// <summary>
@@ -65,6 +66,17 @@ namespace Genealogi
         {
             Console.WriteLine("DataBase sorted by Name:");
             var lst = crud.List(orderBy:"FirstName");
+            PrintTable(lst);
+            Continue();
+        }
+
+        /// <summary>
+        /// Print Database to the console sorted by BirthCity
+        /// </summary>
+        private static void SortListByBirthCity()
+        {
+            Console.WriteLine("DataBase sorted by BirthCity:");
+            var lst = crud.List(orderBy: "BirthCity");
             PrintTable(lst);
             Continue();
         }
