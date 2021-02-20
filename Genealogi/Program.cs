@@ -11,8 +11,16 @@ namespace Genealogi
         static SQLDB db = new SQLDB();
 
         // Main method
+        // 
         static void Main(string[] args)
         {
+            /* 
+             * Set the width of the console to display(print) the table evenly
+             * 
+             * Name     | Lastname      |
+             * Ben      | Skywalker     |
+             * 
+             */
             Console.WindowWidth = 140;
 
             CreateDataBase();
@@ -112,7 +120,7 @@ namespace Genealogi
         }
 
         /// <summary>
-        /// Change Leia to Organa
+        /// Change Leia's name to Organa and back
         /// </summary>
         private static void ChangeNameToOrgana()
         {
