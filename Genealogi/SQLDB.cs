@@ -9,7 +9,9 @@ namespace Genealogi
 {
     class SQLDB
     {
+        // The name of the database
         public string DatabaseName { get; set; } = "Master";
+        // Connection string
         public string ConnectionString { get; set; } = @"Data Source=.\SQLExpress;Integrated Security=true;database={0}";
 
         /// <summary>
@@ -40,6 +42,12 @@ namespace Genealogi
             return rowsAffected;
         }
 
+        /// <summary>
+        /// Gets a datatable from the DB
+        /// </summary>
+        /// <param name="sqlString">used to execute</param>
+        /// <param name="parameters">used to send parameters</param>
+        /// <returns>DataTable</returns>
         public DataTable GetDataTable(string sqlString, params (string, string)[] parameters)
         {
             var dt = new DataTable();
@@ -58,11 +66,15 @@ namespace Genealogi
             return dt;
         }
 
+        /// <summary>
+        /// Create Database
+        /// </summary>
+        /// <param name="name">Table Name</param>
         public void CreateDatabase(string name)
         {
             if (DoesDatabaseExist(name))
             {
-                Console.WriteLine("Sorry, db already exist");
+                Console.WriteLine("Sorry, DB already exists. I will use this DB instead.");
             }
             else
             {
@@ -70,12 +82,20 @@ namespace Genealogi
                 OpenDatabase(name);
             }
         }
-
+        /// <summary>
+        /// Open Database with a specific name
+        /// </summary>
+        /// <param name="name">used to specify the database name</param>
         public void OpenDatabase(string name)
         {
             DatabaseName = name;
         }
 
+        /// <summary>
+        /// Create table
+        /// </summary>
+        /// <param name="tableName">used to set table name</param>
+        /// <param name="fields">used to specify fields in the table</param>
         public void CreateTable(string tableName, string fields)
         {
             if (DoesTableExist(tableName))
@@ -87,18 +107,33 @@ namespace Genealogi
             }
         }
 
+        /// <summary>
+        /// Check if database exist
+        /// </summary>
+        /// <param name="databaseName">Database name</param>
+        /// <returns>True if DB exist</returns>
         public bool DoesDatabaseExist(string databaseName)
         {
             var db = GetDataTable("SELECT name FROM sys.databases WHERE name = @name", ("@name", databaseName));
             return db.Rows.Count > 0 ? true : false;
         }
 
+        /// <summary>
+        /// Check if table exist in the Database
+        /// </summary>
+        /// <param name="tableName">Table name</param>
+        /// <returns>True if table exist</returns>
         public bool DoesTableExist(string tableName)
         {
             var db = GetDataTable("SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = @tableName", ("@tableName", tableName));
             return db.Rows.Count > 0 ? true : false;
         }
 
+        /// <summary>
+        /// Add params to a SQLCommand
+        /// </summary>
+        /// <param name="parameters"></param>
+        /// <param name="command"></param>
         private void SetParameters((string, string)[] parameters, SqlCommand command)
         {
             foreach (var item in parameters)

@@ -185,13 +185,20 @@ namespace Genealogi
             return false;
         }
 
-
+        /// <summary>
+        /// Get father
+        /// </summary>
+        /// <param name="person">Person object</param>
         public void GetFather(Person person) 
         {
             var father = Read(person.Id);
             Console.WriteLine($"Father: {father.Name}");
         }
         
+        /// <summary>
+        /// Get mother
+        /// </summary>
+        /// <param name="person">Person object</param>
         public void GetMother(Person person) {
             var mother = Read(person.Id);
             Console.WriteLine($"Father: {mother.Name}");
